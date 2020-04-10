@@ -1,0 +1,45 @@
+/*Question 2:
+Consider a shared resource whose value is 2. Consider two threads. First thread increments the value of shared resource by 2,
+ second thread divides the value shared resource by 2. Write a program to demonstrate race hazard using the given situation.
+*/
+#include<stdio.h>
+#include<stdlib.h>
+#include<pthread.h>
+#include<unistd.h>
+#include<semaphore.h>
+void *fun1();
+void *fun2();
+int sharedno=2;
+sem_t s;
+int main()
+{
+sem_init(&s,2,1);
+pthread_t thread1, thread2;
+pthread_create(&thread1, NULL, fun1, NULL);
+pthread_create(&thread2, NULL, fun2, NULL);
+pthread_join(thread1, NULL);
+pthread_join(thread2,NULL);
+printf("The Final value of shared Number is %d\n",sharedno);
+}
+
+void *fun1()
+{
+    int x;
+    sem_wait(&s);
+    x=sharedno;
+    x++;
+    sleep(1);
+    sharedno=x;
+    sem_post(&s);
+}
+
+void *fun2()
+{
+    int y;
+    sem_wait(&s);
+    y=sharedno;
+    y=y/2;
+    sleep(1); 
+    sharedno=y;
+    sem_post(&s);
+}

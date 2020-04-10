@@ -1,0 +1,32 @@
+/*Using thread, write a program to calculate the income tax. Take salary as input from the user. The thread must pass the final value of calculated income tax to the main thread.
+Conditions to calculate tax, if salary is:
+Less than or equal to 4,00,000 – 1%
+Greater than 4,00,000 and Less than 10,00,000 – 5%
+Greater than 10,00,000 – 12% */
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<pthread.h>
+void *thread();
+float sal1, tax1;
+int main(){
+
+    pthread_t pth;
+    printf("\nEnter salary of the person: \n");
+    scanf("%f",&sal1);
+    printf("The salary of the person is: %f\n",sal1);
+    pthread_create(&pth,NULL,thread,NULL);
+    pthread_join(pth,NULL);
+    printf("The income tax to be paid: %f.\n",tax1);
+}
+void *thread(){
+    if(sal1<=400000)
+       { tax1 = 0.01*sal1;
+    }
+    else if(sal1>400000 && sal1<=1000000){
+        tax1 = 0.05*sal1;
+    }
+    else{
+        tax1 = 0.12*sal1;
+    }
+}

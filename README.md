@@ -1,5 +1,6 @@
-# Operating-System-Lab
-sem 4
+to calculate the income tax
+using OS
+
 
 
 question 1:
